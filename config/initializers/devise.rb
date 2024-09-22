@@ -17,19 +17,16 @@ Devise.setup do |config|
   # config.secret_key = '60462229b14960c60d15fbfa89e737106a73fcde20949920f2390b86103629854b338fa0ac3b17947847325da38e2818320ad74b736824dd8bc2935019eb7cf4'
 
   config.jwt do |jwt|
-    # jwt.secret = Rails.application.credentials.devise[:jwt_secret_key] || '62229b14960d15fbfa89e737106a73fcde20949920f2390b86103629854b338fa0ac3b17947847325da38e2818320ad74b736824dd8bc2935019eb7cf4'
-    # i create a .env file and add the jwt secret key
-    config.jwt do |jwt|
       jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"]
       jwt.dispatch_requests = [
-        ["POST", %r{^/users/sign_in$}]
+        [ "POST", %r{^/users/sign_in$} ]
       ]
       jwt.revocation_requests = [
-        ["DELETE", %r{^/users/sign_out$}]
+        [ "DELETE", %r{^/users/sign_out$} ]
       ]
       jwt.expiration_time = 1.day.to_i
     end
-  
+
     # Ensure Devise responds with JSON for unauthenticated requests
     config.warden do |manager|
       manager.failure_app = ->(env) { Devise::FailureApp.call(env) }
