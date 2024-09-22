@@ -5,14 +5,14 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
+# config/initializers/cors.rb
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # Only allow requests from the specified origin
-    origins "https://jubilant-succotash-pq4r4r46qpjh6gqq-3000.app.github.dev/"
+    origins "https://jubilant-succotash-pq4r4r46qpjh6gqq-3000.app.github.dev"
 
     resource "*",
       headers: :any,
       methods: [ :get, :post, :put, :patch, :delete, :options, :head ],
-      credentials: true # Allow cookies and HTTP authentication information to be included in requests
+      credentials: true
   end
 end
