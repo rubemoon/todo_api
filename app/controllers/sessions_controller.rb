@@ -4,9 +4,14 @@ class SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    token = generate_jwt_token(resource)
-    log_jwt_token(token)
-    render_success_response(resource, token)
+    if resource.persisted?
+      token = generate_jwt_token(resource)
+      log_jwt_token(token)
+      log_user_info(resource)
+      render_success_response(resource, token)
+    else
+      render_failure_response
+    end
   end
 
   def respond_to_on_destroy
@@ -21,11 +26,22 @@ class SessionsController < Devise::SessionsController
     Rails.logger.info "JWT Token: #{token}"
   end
 
+  def log_user_info(resource)
+    Rails.logger.info "User Info: #{resource.inspect}"
+  end
+
   def render_success_response(resource, token)
     render json: {
       message: "Logged in successfully",
       user: resource,
       token: token
     }, status: :ok
+  end
+
+  def render_failure_response
+    render json: {
+      message: "Login failed",
+      errors: resource.errors.full_messages
+    }, status: :unauthorized
   end
 end
