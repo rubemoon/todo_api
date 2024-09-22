@@ -1,5 +1,5 @@
 require_relative "boot"
-require 'dotenv-rails'
+require "dotenv-rails"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -15,10 +15,11 @@ module TodoApi
       # GraphQL-Ruby query log tags:
       current_graphql_operation: -> { GraphQL::Current.operation_name },
       current_graphql_field: -> { GraphQL::Current.field&.path },
-      current_dataloader_source: -> { GraphQL::Current.dataloader_source_class },
+      current_dataloader_source: -> { GraphQL::Current.dataloader_source_class }
     ]
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
+    config.api_only = true
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -40,7 +41,7 @@ module TodoApi
 
     # Add session middleware for API-only applications
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_your_app_session'
+    config.middleware.use ActionDispatch::Session::CookieStore, key: "_todo_api_session"
     config.middleware.use Warden::JWTAuth::Middleware
   end
 end
