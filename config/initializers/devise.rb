@@ -17,7 +17,16 @@ Devise.setup do |config|
   # config.secret_key = '60462229b14960c60d15fbfa89e737106a73fcde20949920f2390b86103629854b338fa0ac3b17947847325da38e2818320ad74b736824dd8bc2935019eb7cf4'
 
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise[:jwt_secret_key]
+    # jwt.secret = Rails.application.credentials.devise[:jwt_secret_key] || '62229b14960d15fbfa89e737106a73fcde20949920f2390b86103629854b338fa0ac3b17947847325da38e2818320ad74b736824dd8bc2935019eb7cf4'
+    # i create a .env file and add the jwt secret key
+    jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"]
+    jwt.dispatch_requests = [
+      [ "POST", %r{^/users/sign_in$} ]
+    ]
+    jwt.revocation_requests = [
+      [ "DELETE", %r{^/users/sign_out$} ]
+    ]
+    jwt.expiration_time = 1.day.to_i
   end
 
   # ==> Controller configuration
@@ -267,7 +276,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html, :turbo_stream]
+  config.navigational_formats = [ "*/*", :html, :turbo_stream ]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -285,6 +294,11 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
+
+  # Ensure Devise responds with JSON for unauthenticated requests
+  config.warden do |manager|
+    manager.failure_app = ->(env) { Devise::FailureApp.call(env) }
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine

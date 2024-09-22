@@ -4,8 +4,12 @@ one:
   title: MyString
   completed: false
   user: one
+  description: MyText
+  due_date: 2024-09-22 01:36:11
 
 two:
   title: MyString
   completed: false
   user: two
+  description: MyText
+  due_date: 2024-09-22 01:36:11

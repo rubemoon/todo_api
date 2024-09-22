@@ -1,5 +1,5 @@
 require_relative "boot"
-
+require 'dotenv-rails'
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -37,5 +37,10 @@ module TodoApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Add session middleware for API-only applications
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_your_app_session'
+    config.middleware.use Warden::JWTAuth::Middleware
   end
 end
