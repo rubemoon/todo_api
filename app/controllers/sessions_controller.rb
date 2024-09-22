@@ -33,7 +33,10 @@ class SessionsController < Devise::SessionsController
   def render_success_response(resource, token)
     render json: {
       message: "Logged in successfully",
-      user: resource,
+      user: {
+        id: resource.id,
+        email: resource.email
+      },
       token: token
     }, status: :ok
   end
