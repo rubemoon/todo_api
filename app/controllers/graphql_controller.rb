@@ -45,6 +45,16 @@ class GraphqlController < ApplicationController
     end
   end
 
+  def current_user
+    return unless request.headers["Authorization"].present?
+
+    token = request.headers["Authorization"].split(" ").last
+    decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base, true, { algorithm: "HS256" }).first
+    User.find(decoded_token["user_id"])
+  rescue JWT::DecodeError
+    nil
+  end
+
   def handle_error(error)
     if Rails.env.development?
       handle_error_in_development(error)
