@@ -8,13 +8,7 @@
 # config/initializers/cors.rb
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    if Rails.env.development?
-      # Allow requests from any origin in development
-      origins "*"
-    else
-      # Restrict origins in production
-      origins "https://jubilant-succotash-pq4r4r46qpjh6gqq-3000.app.github.dev/"
-    end
+    origins "https://jubilant-succotash-pq4r4r46qpjh6gqq-3000.app.github.dev"
 
     resource "*",
       headers: :any,
