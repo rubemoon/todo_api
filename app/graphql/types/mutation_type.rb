@@ -6,7 +6,7 @@ module Types
     field :sign_up_user, mutation: Mutations::SignUpUser
     field :create_todo, mutation: Mutations::CreateTodo
     field :delete_todo, mutation: Mutations::DeleteTodo
-
+    field :update_todo, mutation: Mutations::UpdateTodo
     # TODO: remove me
     field :test_field, String, null: false,
       description: "An example field added by the generator"
