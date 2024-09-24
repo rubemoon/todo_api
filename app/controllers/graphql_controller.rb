@@ -1,6 +1,6 @@
 class GraphqlController < ApplicationController
   protect_from_forgery with: :null_session
-  skip_before_action :verify_authenticity_token, only: [:execute]
+  skip_before_action :verify_authenticity_token, only: [ :execute ]
 
   def execute
     variables = prepare_variables(params[:variables])
@@ -50,6 +50,6 @@ class GraphqlController < ApplicationController
   end
 
   def handle_error(error)
-    render json: { errors: [{ message: error.message }] }, status: 500
+    render json: { errors: [ { message: error.message } ] }, status: 500
   end
 end

@@ -18,7 +18,6 @@ module Types
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
-    # Add the todos query
     field :todos, [Types::TodoType], null: false, description: "Fetches all todos for the current user"
 
     def todos

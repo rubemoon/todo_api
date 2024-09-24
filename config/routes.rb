@@ -9,7 +9,4 @@ Rails.application.routes.draw do
   end
 
   post "/graphql", to: "graphql#execute"
-
-  # Route for favicon.ico
-  get "/favicon.ico", to: ->(_) { [ 204, {}, [] ] }
 end
