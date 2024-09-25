@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   end
 
   post "/graphql", to: "graphql#execute"
+
+  # Catch-all route for non-existent routes
+  match "*path", to: "application#route_not_found", via: :all
 end
