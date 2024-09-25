@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
   # Skip CSRF verification for JSON requests
   skip_before_action :verify_authenticity_token, if: :json_request?
 
+  # Handle non-existent routes
+  def route_not_found
+    render json: { error: "Route not found" }, status: :not_found
+  end
+
   private
 
   # Check if the request format is JSON
@@ -19,10 +24,5 @@ class ApplicationController < ActionController::Base
     else
       super
     end
-  end
-
-  # Handle non-existent routes
-  def route_not_found
-    render json: { error: "Route not found" }, status: :not_found
   end
 end
